@@ -11,16 +11,8 @@ const url = require('url');
 const StringDecoder = require('string_decoder').StringDecoder;
 const config = require('./config');
 const fs = require('fs');
-const _data = require('./lib/data');
 const handlers = require('./lib/handlers');
-
-
-
-// TESTING
-// @TODO del(ete this
-_data.delete('test', 'newFile', function(err, data) {
-  console.log('this was the error', err, 'this was the data', data);
-});
+const helpers = require('./lib/helpers');
 
 
 // Instatiate the HTTP server
@@ -87,7 +79,7 @@ const unifiedServer = function (req, res) {
       'queryStringObject' : queryStringObject,
       'method' : method,
       'headers' : headers,
-      'payload' : buffer
+      'payload' : helpers.parseJsonToObject(buffer)
     };
     console.log(choosenHandler, router);
     // Route the request to the handler specified in the router 
